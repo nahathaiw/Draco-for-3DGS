@@ -1,0 +1,86 @@
+{
+  "original": "testdata/3DGS/3dgs.ply",
+  "decoded": "experiment_results/7-28-26exp/exp3_selective_sh16/decoded_fdc0_rest16.ply",
+  "gaussian_count_original": 136641,
+  "gaussian_count_decoded": 136641,
+  "property_count": 62,
+  "property_order_identical": true,
+  "rows_with_position_difference": 0,
+  "ordering_preserved_by_position": true,
+  "non_sh_exact": true,
+  "header_identical": true,
+  "groups": {
+    "position": {
+      "value_count": 409923,
+      "changed_values": 0,
+      "max_abs_error": 0.0,
+      "mae": 0.0,
+      "rmse": 0.0,
+      "exact": true
+    },
+    "normal": {
+      "value_count": 409923,
+      "changed_values": 0,
+      "max_abs_error": 0.0,
+      "mae": 0.0,
+      "rmse": 0.0,
+      "exact": true
+    },
+    "f_dc": {
+      "value_count": 409923,
+      "changed_values": 0,
+      "max_abs_error": 0.0,
+      "mae": 0.0,
+      "rmse": 0.0,
+      "exact": true
+    },
+    "f_rest_1": {
+      "value_count": 1229769,
+      "changed_values": 1229469,
+      "max_abs_error": 1.9371509552001953e-05,
+      "mae": 9.664872658693655e-06,
+      "rmse": 1.1157280894516028e-05,
+      "exact": false
+    },
+    "f_rest_2": {
+      "value_count": 2049615,
+      "changed_values": 2049091,
+      "max_abs_error": 1.5437602996826172e-05,
+      "mae": 7.64582154283273e-06,
+      "rmse": 8.83139009786015e-06,
+      "exact": false
+    },
+    "f_rest_3": {
+      "value_count": 2869461,
+      "changed_values": 2868920,
+      "max_abs_error": 1.7881393432617188e-05,
+      "mae": 8.866556986997995e-06,
+      "rmse": 1.0237465338637004e-05,
+      "exact": false
+    },
+    "opacity": {
+      "value_count": 136641,
+      "changed_values": 0,
+      "max_abs_error": 0.0,
+      "mae": 0.0,
+      "rmse": 0.0,
+      "exact": true
+    },
+    "scale": {
+      "value_count": 409923,
+      "changed_values": 0,
+      "max_abs_error": 0.0,
+      "mae": 0.0,
+      "rmse": 0.0,
+      "exact": true
+    },
+    "rotation": {
+      "value_count": 546564,
+      "changed_values": 0,
+      "max_abs_error": 0.0,
+      "mae": 0.0,
+      "rmse": 0.0,
+      "exact": true
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "source_to_modified": {
+    "gaussian_count": 136641,
+    "property_count": 62,
+    "property_order_preserved": true,
+    "rotation": {
+      "rot_0": {
+        "expected": 1.0,
+        "incorrect_outputs": 0,
+        "changed_values": 136641
+      },
+      "rot_1": {
+        "expected": 0.0,
+        "incorrect_outputs": 0,
+        "changed_values": 136641
+      },
+      "rot_2": {
+        "expected": 0.0,
+        "incorrect_outputs": 0,
+        "changed_values": 136641
+      },
+      "rot_3": {
+        "expected": 0.0,
+        "incorrect_outputs": 0,
+        "changed_values": 136641
+      }
+    },
+    "identity_rotation_exact": true,
+    "untargeted_changed_values": 0,
+    "untargeted_values_bit_exact": true
+  }
+}

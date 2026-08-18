@@ -1,0 +1,8 @@
+conversion_schema_equal=True
+conversion_vertex_count=136641
+conversion_property_count=62
+conversion_bit_exact=True
+conversion_mismatched_rows=0
+conversion_first_mismatch=None
+binary_trailing_bytes=0
+ascii_trailing_bytes=0

@@ -1,0 +1,19 @@
+{
+  "source": "testdata/3DGS/3dgs.ply",
+  "decoded": "experiment_results/7-28-26exp/exp4_skip_rotation/decoded_with_rotation.ply",
+  "source_gaussian_count": 136641,
+  "decoded_gaussian_count": 136641,
+  "gaussian_count_preserved": true,
+  "source_property_count": 62,
+  "decoded_property_count": 62,
+  "expected_missing_properties": [],
+  "actual_missing_properties": [],
+  "missing_properties_match_expectation": true,
+  "unexpected_extra_properties": [],
+  "retained_property_order_preserved": true,
+  "retained_changed_rows": 0,
+  "retained_changed_values": 0,
+  "all_retained_float32_values_bit_exact": true,
+  "header_identical": true,
+  "unexpected_trailing_data": false
+}

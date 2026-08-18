@@ -1,0 +1,85 @@
+{
+  "source_to_modified": {
+    "gaussian_count": 136641,
+    "property_count": 62,
+    "property_order_preserved": true,
+    "targets": {
+      "x": {
+        "source_nonzero": 136641,
+        "modified_nonzero": 0,
+        "changed": 136641
+      },
+      "y": {
+        "source_nonzero": 136641,
+        "modified_nonzero": 0,
+        "changed": 136641
+      },
+      "z": {
+        "source_nonzero": 136641,
+        "modified_nonzero": 0,
+        "changed": 136641
+      },
+      "nx": {
+        "source_nonzero": 0,
+        "modified_nonzero": 0,
+        "changed": 0
+      },
+      "ny": {
+        "source_nonzero": 0,
+        "modified_nonzero": 0,
+        "changed": 0
+      },
+      "nz": {
+        "source_nonzero": 0,
+        "modified_nonzero": 0,
+        "changed": 0
+      },
+      "scale_0": {
+        "source_nonzero": 136641,
+        "modified_nonzero": 0,
+        "changed": 136641
+      },
+      "scale_1": {
+        "source_nonzero": 136641,
+        "modified_nonzero": 0,
+        "changed": 136641
+      },
+      "scale_2": {
+        "source_nonzero": 136641,
+        "modified_nonzero": 0,
+        "changed": 136641
+      },
+      "rot_0": {
+        "source_nonzero": 136641,
+        "modified_nonzero": 0,
+        "changed": 136641
+      },
+      "rot_1": {
+        "source_nonzero": 136641,
+        "modified_nonzero": 0,
+        "changed": 136641
+      },
+      "rot_2": {
+        "source_nonzero": 136641,
+        "modified_nonzero": 0,
+        "changed": 136641
+      },
+      "rot_3": {
+        "source_nonzero": 136641,
+        "modified_nonzero": 0,
+        "changed": 136641
+      }
+    },
+    "all_target_outputs_zero": true,
+    "untargeted_changed_values": 0,
+    "untargeted_properties_bit_exact": true
+  },
+  "modified_to_decoded": {
+    "gaussian_count_preserved": true,
+    "property_order_preserved": true,
+    "header_identical": true,
+    "changed_rows": 0,
+    "changed_values": 0,
+    "all_float32_values_bit_exact": true
+  }
+}

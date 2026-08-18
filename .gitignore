@@ -8,3 +8,23 @@ myresult
 mytest
 expData
 output
+
+# Local CMake build trees.
+build*/
+
+# Python caches.
+__pycache__/
+*.py[cod]
+
+# Generated experiment outputs.
+run-output/
+experiment_results/**/*.ply
+experiment_results/**/*.drc
+experiment_results/**/*.log
+
+# Large local datasets and checkpoints.
+testdata/3DGS/hotdog/
+testdata/3DGS/hotdog.ply
+
+# Empty local scratch file.
+notes/he

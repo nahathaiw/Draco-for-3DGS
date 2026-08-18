@@ -54,6 +54,78 @@ python ./mytool/3DGS_pcd_to_draco_pcd.py -i ./myData/ficus.ply -o ./myData/ficus
 -cl 10
 ```
 
+### Lossless attributes and skipping 3DGS attributes
+
+Set an attribute's quantization value to `0` to disable quantization and retain
+its original values. This keeps the attribute in the encoded point cloud; it is
+not the same as skipping the attribute.
+
+The encoder can omit normals, scales, or rotations with `--skip`:
+
+```bash
+# Omit rotations from the encoded file.
+./build_dir/draco_encoder -point_cloud \
+-i ./myData/ficus_3dgs.ply \
+-o ./myData/ficus_3dgs_without_rotation.drc \
+--skip ROT
+
+# Omit normals and scales from the encoded file.
+./build_dir/draco_encoder -point_cloud \
+-i ./myData/ficus_3dgs.ply \
+-o ./myData/ficus_3dgs_without_normal_and_scale.drc \
+--skip NORMAL --skip SCALE
+```
+
+Supported `--skip` values are `NORMAL`, `TEX_COORD`, `GENERIC`, `SCALE`, and
+`ROT`. A skipped attribute is deleted before encoding and will therefore not be
+present after decoding. The encoder prints `Normal: Skipped`, `Scale: Skipped`,
+or `Rotation: Skipped` when the corresponding 3DGS attribute was found and
+removed.
+
+To encode the 3DGS attributes without quantization, use zero for their
+quantization options:
+
+```bash
+./build_dir/draco_encoder -point_cloud \
+-i ./myData/ficus_3dgs.ply \
+-o ./myData/ficus_3dgs_lossless_attributes.drc \
+-qp 0 -qfd 0 -qfr1 0 -qfr2 0 -qfr3 0 \
+-qo 0 -qs 0 -qr 0 \
+-cl 10
+```
+
+After decoding, compare the source and decoded PLY data with a PLY-aware tool
+instead of relying only on a byte-for-byte `diff`: serialization details such as
+headers or numeric formatting may differ even when attribute values match.
+
+## Development notes (2025-07-23)
+
+1.
+No need to think about the compression ratio.
+
+### Draco-for-3DGS
+Check changing 16 bits to 0 bits. Zero bits means lossless. If it is set to 0,
+no information should be lost and the order should be kept. Use `diff` first; if
+the files differ, use [GS-Interface](https://github.com/SYJINTW/GS-Interface).
+
+### Draco original
+2. check if we compress the mesh . Try to compress the colored mesh (yuan chun will give color mesh later)
+- make sure that we use lossless way to (check in the original readme) and make sure that the order will not change
+- way to check diff (cmd to see if the two data are differnet) maybe write a reader to checkk if tthe informatin are the same
+- (the reader trimesh (python library) to check if the information of the mesh are the same like vertex face triancgle color if they are the same)
+
+
+### Draco-for-3DGS
+3. change all the information except the sh (color) change it all to 0 but keep the color and compress using the lossless way
+then i compress it with the lossless way and check if the two data ( check the file size )
+TO CHANGE THE 3DGS INFORMAION WE CAN USE https://github.com/SYJINTW/GS-Interface.git
+
+4. Check the draco 3dgs code
+- small experiment try to not compress rotation ex delete the rotation part(like dont need to read the rotation)
+
+feed the original 3dgs --> compress it --> then decode it --> after we unpacked we wont have the rotation
+
+
 ## Decode (C++ execution)
 ```bash
 ./build_dir/draco_decoder \

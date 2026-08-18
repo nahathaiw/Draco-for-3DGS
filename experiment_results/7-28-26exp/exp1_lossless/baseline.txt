@@ -1,0 +1,2 @@
+input_path=testdata/3DGS/3dgs.plytestdata/3DGS/3dgs.plyinput_size_bytes=60690564
+valid_input_path=experiment_results/7-28-26exp/exp1_lossless/original_binary.plyexperiment_results/7-28-26exp/exp1_lossless/original_binary.plyvalid_input_size_bytes=33888499

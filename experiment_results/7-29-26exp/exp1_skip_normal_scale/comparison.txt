@@ -1,0 +1,6 @@
+baseline_cmp_exit=0
+testdata/3DGS/3dgs.ply 33888499
+experiment_results/7-29-26exp/exp1_skip_normal_scale/baseline_all_attributes.drc 33887039
+experiment_results/7-29-26exp/exp1_skip_normal_scale/baseline_decoded.ply 33888499
+experiment_results/7-29-26exp/exp1_skip_normal_scale/without_normal_scale.drc 30607643
+experiment_results/7-29-26exp/exp1_skip_normal_scale/decoded_without_normal_scale.ply 30608992

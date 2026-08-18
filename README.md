@@ -27,7 +27,12 @@ java -jar ../additional/closure-compiler-v20210302.jar --compilation_level SIMPL
 ```
 
 ## Usage
-**[!] You should change the 3DGS data to ASCII format before you encode.**
+
+Converting 3DGS data to ASCII is the compatibility-safe input workflow. The
+standard binary little-endian, 62-float 3DGS schema used in these experiments
+also works directly and produces the same lossless bitstream, but other binary
+PLY schemas are not guaranteed to work. See
+[Experiment 1B](experiment_results/7-28-26exp/exp1b_binary_input/REPORT.md).
 
 ## Change binary format to ASCII format
 ```bash
@@ -97,6 +102,49 @@ quantization options:
 After decoding, compare the source and decoded PLY data with a PLY-aware tool
 instead of relying only on a byte-for-byte `diff`: serialization details such as
 headers or numeric formatting may differ even when attribute values match.
+
+## Experiment results and artifacts
+
+The repository records experiment methods, terminal commands, verification
+scripts, and machine-readable results under `experiment_results/`. Large PLY
+files, Draco bitstreams, build trees, and raw command logs are kept locally and
+ignored by Git; the smaller reproducibility artifacts are version-controlled.
+
+| Date | Experiment | Main result | Documentation and evidence |
+|---|---|---|---|
+| 2026-07-28 | Full lossless 3DGS round trip | All 62 properties and 136,641 Gaussian rows were byte-identical after zero-quantization encode/decode. | [Report](experiment_results/7-28-26exp/exp1_lossless/REPORT.md), [checksums](experiment_results/7-28-26exp/exp1_lossless/SHA256SUMS.txt) |
+| 2026-07-28 | Direct binary PLY input | The tested binary PLY encoded directly and produced the same `.drc` as verified ASCII input. | [Report](experiment_results/7-28-26exp/exp1b_binary_input/REPORT.md), [comparison](experiment_results/7-28-26exp/exp1b_binary_input/comparison.txt) |
+| 2026-07-28 | Selective 16-bit SH/color quantization | Geometry, opacity, scale, and rotation stayed exact; SH/color became lossy. The `.drc` was 42.39% smaller than the source PLY. | [Report](experiment_results/7-28-26exp/exp3_selective_sh16/REPORT.md), [comparison script](experiment_results/7-28-26exp/exp3_selective_sh16/compare_ply.py), [results](experiment_results/7-28-26exp/exp3_selective_sh16/comparison.json) |
+| 2026-07-28 | Zero selected non-color attributes | The artificially zeroed model survived a fully lossless round trip, but zeroing did not reduce the lossless `.drc` size. | [Report](experiment_results/7-28-26exp/exp3b_zero_attributes/REPORT.md), [log](experiment_results/7-28-26exp/exp3b_zero_attributes/log.md), [round-trip results](experiment_results/7-28-26exp/exp3b_zero_attributes/roundtrip_verification.json) |
+| 2026-07-28 | Replace rotation with identity quaternions | Every rotation became `(1,0,0,0)` while untargeted values remained exact; the modified model then round-tripped byte-for-byte. | [Report](experiment_results/7-28-26exp/exp3c_identity_rotation/REPORT.md), [log](experiment_results/7-28-26exp/exp3c_identity_rotation/log.md), [round-trip results](experiment_results/7-28-26exp/exp3c_identity_rotation/roundtrip_verification.json) |
+| 2026-07-28 | Skip rotation | `rot_0..3` were removed, all retained values and row order stayed exact, and the `.drc` became 6.451617% smaller than the lossless baseline. | [Report](experiment_results/7-28-26exp/exp4_skip_rotation/REPORT.md), [log](experiment_results/7-28-26exp/exp4_skip_rotation/log.md), [verification](experiment_results/7-28-26exp/exp4_skip_rotation/skip_rotation_verification.json) |
+| 2026-07-29 | Skip normal and scale | Six properties were removed, every retained value stayed exact, and the `.drc` became 9.677434% smaller than the lossless baseline. | [Report](experiment_results/7-29-26exp/exp1_skip_normal_scale/REPORT.md), [implementation guide](experiment_results/7-29-26exp/exp1_skip_normal_scale/HOW_SKIP_HANDLING_WORKS.md), [log](experiment_results/7-29-26exp/exp1_skip_normal_scale/log.md), [verification](experiment_results/7-29-26exp/exp1_skip_normal_scale/skip_verification.json) |
+| 2026-08-13 | Hotdog full lossless round trip | All 9,224,546 values across 148,783 Gaussians were exact, but the `.drc` was only 0.003957% smaller than the source PLY. | [Report](experiment_results/8-13-26exp/hotdog_lossless/REPORT.md) |
+| 2026-08-18 | Hotdog: keep only position, color, and opacity | Normal, scale, and rotation were removed. All 7,736,716 retained values and row order stayed exact; the `.drc` became 16.129050% smaller than the full lossless baseline. | [Reproduction guide](experiment_results/8-18-26/hotdog_position_color_opacity/README.md), [report](experiment_results/8-18-26/hotdog_position_color_opacity/REPORT.md), [complete command log](experiment_results/8-18-26/hotdog_position_color_opacity/log.md), [verification](experiment_results/8-18-26/hotdog_position_color_opacity/selective_verification.json) |
+
+### Experiment directory map
+
+```text
+experiment_results/
+├── 7-28-26exp/
+│   ├── exp1_lossless/             # Full zero-quantization round trip
+│   ├── exp1b_binary_input/        # Binary input versus ASCII input
+│   ├── exp3_selective_sh16/       # Lossy SH/color, lossless other attributes
+│   ├── exp3b_zero_attributes/     # Zero selected values before lossless coding
+│   ├── exp3c_identity_rotation/   # Replace rotation with identity quaternion
+│   └── exp4_skip_rotation/        # Remove rotation from the bitstream
+├── 7-29-26exp/
+│   └── exp1_skip_normal_scale/    # Remove normal and scale
+├── 8-13-26exp/
+│   └── hotdog_lossless/           # Full Hotdog lossless timing test
+└── 8-18-26/
+    └── hotdog_position_color_opacity/  # Reproducible selective Hotdog test
+```
+
+For a new experiment, follow the 2026-08-18 layout: include a reproduction
+`README.md`, a result-focused `REPORT.md`, a chronological `log.md`, scripts,
+timings, sizes, checksums, and JSON verification evidence. Do not commit the
+generated model files.
 
 ### Reproduce the Hotdog position/color/opacity experiment
 

@@ -1,0 +1,11 @@
+stage	wall_seconds	user_seconds	system_seconds	max_rss_kb
+configure	0.45	0.24	0.21	28484
+build	54.15	91.80	12.41	312048
+convert_to_ascii	2.07	2.02	0.04	16024
+verify_ascii	2.22	2.19	0.02	15948
+baseline_encode	0.79	0.62	0.16	188876
+baseline_decode	0.12	0.03	0.08	125424
+baseline_verify	4.61	4.58	0.01	22656
+selective_encode	0.76	0.62	0.14	188808
+selective_decode	0.09	0.03	0.06	106196
+selective_verify	4.35	4.32	0.02	23068

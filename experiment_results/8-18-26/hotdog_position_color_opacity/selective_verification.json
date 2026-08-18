@@ -1,0 +1,69 @@
+{
+  "source": "testdata/3DGS/hotdog/checkpoint/point_cloud/iteration_30000/point_cloud.ply",
+  "decoded": "experiment_results/8-18-26/hotdog_position_color_opacity/hotdog_position_color_opacity_decoded.ply",
+  "source_sha256": "6627c742839390c92d2e272295e3dbaa2b55b278c7b797f9451c3333a3f65fcd",
+  "decoded_sha256": "652ac1871a5f4dde1f92f4f2f879807d89076b515c2f86ac6d8cbda90e4b9074",
+  "source_gaussian_count": 148783,
+  "decoded_gaussian_count": 148783,
+  "gaussian_count_preserved": true,
+  "source_property_count": 62,
+  "decoded_property_count": 52,
+  "expected_missing_properties": [
+    "nx",
+    "ny",
+    "nz",
+    "scale_0",
+    "scale_1",
+    "scale_2",
+    "rot_0",
+    "rot_1",
+    "rot_2",
+    "rot_3"
+  ],
+  "actual_missing_properties": [
+    "nx",
+    "ny",
+    "nz",
+    "scale_0",
+    "scale_1",
+    "scale_2",
+    "rot_0",
+    "rot_1",
+    "rot_2",
+    "rot_3"
+  ],
+  "missing_properties_match_expectation": true,
+  "unexpected_extra_properties": [],
+  "retained_property_order_preserved": true,
+  "retained_changed_rows": 0,
+  "position_changed_rows": 0,
+  "all_retained_float32_values_bit_exact": true,
+  "source_non_finite_retained_values": 0,
+  "decoded_non_finite_retained_values": 0,
+  "source_header_identical_to_decoded": false,
+  "source_trailing_data": false,
+  "decoded_trailing_data": false,
+  "groups": {
+    "position": {
+      "value_count": 446349,
+      "changed_values": 0,
+      "bit_exact": true
+    },
+    "color_f_dc": {
+      "value_count": 446349,
+      "changed_values": 0,
+      "bit_exact": true
+    },
+    "color_f_rest": {
+      "value_count": 6695235,
+      "changed_values": 0,
+      "bit_exact": true
+    },
+    "opacity": {
+      "value_count": 148783,
+      "changed_values": 0,
+      "bit_exact": true
+    }
+  },
+  "passed": true
+}

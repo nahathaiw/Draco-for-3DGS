@@ -1,0 +1,6 @@
+source_ply	36899715
+ascii_ply	115157382
+baseline_drc	36898255
+baseline_decoded_ply	36899715
+selective_drc	30946917
+selective_decoded_ply	30948188

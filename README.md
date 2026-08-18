@@ -98,6 +98,35 @@ After decoding, compare the source and decoded PLY data with a PLY-aware tool
 instead of relying only on a byte-for-byte `diff`: serialization details such as
 headers or numeric formatting may differ even when attribute values match.
 
+### Reproduce the Hotdog position/color/opacity experiment
+
+The Hotdog selective-lossless experiment keeps position, all spherical-harmonic
+color coefficients, and opacity while omitting normal, scale, and rotation.
+
+Place the dataset at:
+
+```text
+testdata/3DGS/hotdog/checkpoint/point_cloud/iteration_30000/point_cloud.ply
+```
+
+Then run the complete build, encode, decode, timing, and verification workflow
+from the repository root:
+
+```bash
+bash experiment_results/8-18-26/hotdog_position_color_opacity/run_experiment.sh
+```
+
+The retained attributes use zero quantization and are verified bit-for-bit. On
+the recorded Hotdog run, all 7,736,716 retained float32 values were exact and
+the selective bitstream was 16.129050% smaller than the all-attribute lossless
+baseline.
+
+See the experiment's
+[`README.md`](experiment_results/8-18-26/hotdog_position_color_opacity/README.md)
+for prerequisites and reproduction instructions, and
+[`REPORT.md`](experiment_results/8-18-26/hotdog_position_color_opacity/REPORT.md)
+for the complete results and limitations.
+
 ## Development notes (2025-07-23)
 
 1.

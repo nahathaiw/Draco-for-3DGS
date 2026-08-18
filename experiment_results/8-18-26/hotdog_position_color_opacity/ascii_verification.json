@@ -1,0 +1,12 @@
+{
+  "binary": "testdata/3DGS/hotdog/checkpoint/point_cloud/iteration_30000/point_cloud.ply",
+  "ascii": "experiment_results/8-18-26/hotdog_position_color_opacity/hotdog_ascii.ply",
+  "vertex_count": 148783,
+  "property_count": 62,
+  "property_order_identical": true,
+  "mismatched_rows": 0,
+  "mismatched_values": 0,
+  "binary_trailing_data": false,
+  "ascii_trailing_data": false,
+  "exact_float32_conversion": true
+}

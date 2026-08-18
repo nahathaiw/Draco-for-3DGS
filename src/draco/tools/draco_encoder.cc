@@ -56,6 +56,11 @@ struct Options {
   int opacity_quantization_bits;
   int scale_quantization_bits;
   int rot_quantization_bits;
+  bool skip_normal;
+  bool skip_scale;
+  bool scale_deleted;
+  bool skip_rotation;
+  bool rotation_deleted;
   //! [YC] end
 };
 
@@ -83,7 +88,12 @@ Options::Options()
       fRest_3_deleted (false),
       opacity_quantization_bits (16),
       scale_quantization_bits (16),
-      rot_quantization_bits (16) {}
+      rot_quantization_bits (16),
+      skip_normal (false),
+      skip_scale (false),
+      scale_deleted (false),
+      skip_rotation (false),
+      rotation_deleted (false) {}
       //! [YC] end
 
 void Usage() {
@@ -118,7 +128,7 @@ void Usage() {
       "default=7.\n");
   printf(
       "  --skip ATTRIBUTE_NAME skip a given attribute (NORMAL, TEX_COORD, "
-      "GENERIC)\n");
+      "GENERIC, SCALE, ROT)\n");
   printf(
       "  --metadata            use metadata to encode extra information in "
       "mesh files.\n");
@@ -129,11 +139,46 @@ void Usage() {
 
   printf(
       "\nUse negative quantization values to skip the specified attribute\n");
+  printf(
+      "Use --skip NORMAL, --skip SCALE, or --skip ROT to omit a 3DGS "
+      "attribute\n");
 }
 
 int StringToInt(const std::string &s) {
   char *end;
   return strtol(s.c_str(), &end, 10);  // NOLINT
+}
+
+bool DeleteNamedAttributes(
+    draco::PointCloud *point_cloud,
+    const draco::GeometryAttribute::Type attribute_type) {
+  bool deleted = false;
+  while (point_cloud->NumNamedAttributes(attribute_type) > 0) {
+    point_cloud->DeleteAttribute(
+        point_cloud->GetNamedAttributeId(attribute_type, 0));
+    deleted = true;
+  }
+  return deleted;
+}
+
+void ApplyRotationSkip(draco::PointCloud *point_cloud, Options *options) {
+  if (!options->skip_rotation) {
+    return;
+  }
+  options->rotation_deleted =
+      DeleteNamedAttributes(point_cloud, draco::GeometryAttribute::ROT);
+}
+
+void ApplyNormalAndScaleSkip(draco::PointCloud *point_cloud,
+                             Options *options) {
+  if (options->skip_normal) {
+    options->normals_deleted =
+        DeleteNamedAttributes(point_cloud, draco::GeometryAttribute::NORMAL);
+  }
+  if (options->skip_scale) {
+    options->scale_deleted =
+        DeleteNamedAttributes(point_cloud, draco::GeometryAttribute::SCALE);
+  }
 }
 
 void PrintOptions(const draco::PointCloud &pc, const Options &options) {
@@ -241,6 +286,8 @@ void PrintOptions(const draco::PointCloud &pc, const Options &options) {
       printf("  Scale: Quantization = %d bits\n",
              options.scale_quantization_bits);
     }
+  } else if (options.scale_deleted) {
+    printf("  Scale: Skipped\n");
   }
   if (pc.GetNamedAttributeId(draco::GeometryAttribute::ROT) >= 0) {
     if (options.rot_quantization_bits == 0) {
@@ -249,6 +296,8 @@ void PrintOptions(const draco::PointCloud &pc, const Options &options) {
       printf("  Rotation: Quantization = %d bits\n",
              options.rot_quantization_bits);
     }
+  } else if (options.rotation_deleted) {
+    printf("  Rotation: Skipped\n");
   }
   //! [YC] end
   printf("\n");
@@ -447,11 +496,15 @@ int main(int argc, char **argv) {
       options.compression_level = StringToInt(argv[++i]);
     } else if (!strcmp("--skip", argv[i]) && i < argc_check) {
       if (!strcmp("NORMAL", argv[i + 1])) {
-        options.normals_quantization_bits = -1;
+        options.skip_normal = true;
       } else if (!strcmp("TEX_COORD", argv[i + 1])) {
         options.tex_coords_quantization_bits = -1;
       } else if (!strcmp("GENERIC", argv[i + 1])) {
         options.generic_quantization_bits = -1;
+      } else if (!strcmp("SCALE", argv[i + 1])) {
+        options.skip_scale = true;
+      } else if (!strcmp("ROT", argv[i + 1])) {
+        options.skip_rotation = true;
       } else {
         printf("Error: Invalid attribute name after --skip\n");
         return -1;
@@ -526,6 +579,8 @@ int main(int argc, char **argv) {
           pc->GetNamedAttributeId(draco::GeometryAttribute::GENERIC, 0));
     }
   }
+  ApplyNormalAndScaleSkip(pc.get(), &options);
+  ApplyRotationSkip(pc.get(), &options);
   //! [YC] start: skip necessary SH
   if (options.fRest_1_quantization_bits < 0) {
     if (pc->NumNamedAttributes(draco::GeometryAttribute::F_REST_1) > 0) {
@@ -559,7 +614,9 @@ int main(int argc, char **argv) {
 #ifdef DRACO_ATTRIBUTE_INDICES_DEDUPLICATION_SUPPORTED
   // If any attribute has been deleted, run deduplication of point indices again
   // as some points can be possibly combined.
-  if (options.tex_coords_deleted || options.normals_deleted || options.generic_deleted || 
+  if (options.tex_coords_deleted ||
+      (options.normals_deleted && !options.skip_normal) ||
+      options.generic_deleted ||
       options.fRest_1_deleted || options.fRest_2_deleted || options.fRest_3_deleted
       ) {
     pc->DeduplicatePointIds();
